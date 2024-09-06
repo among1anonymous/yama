@@ -1,7 +1,10 @@
 "use client";
+import localFont from 'next/font/local';
 import { useEffect, useState } from 'react';
 
-
+const myFont = localFont({
+  src: '/fonts/Hacked-KerX.ttf',
+})
 const CountdownTimer: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
@@ -58,8 +61,8 @@ const CountdownTimer: React.FC = () => {
   }
 
   const countdownDisplay = `
-    ${String(timeLeft.days).padStart(2, '0')}d : ${String(timeLeft.hours).padStart(2, '0')}h : 
-    ${String(timeLeft.minutes).padStart(2, '0')}m : ${String(timeLeft.seconds).padStart(2, '0')}s
+    ${String(timeLeft.days).padStart(2, '0')}D : ${String(timeLeft.hours).padStart(2, '0')}H : 
+    ${String(timeLeft.minutes).padStart(2, '0')}M : ${String(timeLeft.seconds).padStart(2, '0')}S
   `;
 
   return (
@@ -87,7 +90,9 @@ const CountdownTimer: React.FC = () => {
       {!isMinimized && (
         <div className="flex items-center justify-center h-full">
           <div className="text-[6rem] leading-none text-terminal-green">
-            {countdownDisplay}
+            <div className={myFont.className}>
+              {countdownDisplay}
+            </div>
           </div>
         </div>
       )}
