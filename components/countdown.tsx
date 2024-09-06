@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 
+
 const CountdownTimer: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
@@ -67,8 +68,8 @@ const CountdownTimer: React.FC = () => {
         isFullScreen ? 'h-screen w-screen' : 'h-auto w-auto'
       }`}
     >
-
-      <div className="absolute top-0 left-0 p-4 flex flex-col">
+      
+      <div className="top-0 absolute left-0 p-4 flex flex-col">
        
         <div className="flex space-x-2 mb-2">
           <div className="w-3 h-3 bg-red-600 rounded-full cursor-pointer" onClick={handleClose}></div>
@@ -90,7 +91,8 @@ const CountdownTimer: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    
   );
 };
 

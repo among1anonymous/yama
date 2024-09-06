@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { TextGenerateEffect } from "./ui/text-generator";
+import { YamaText } from "./yamatext";
 
 export default function AboutPage() {
   const yamaDescription = `
@@ -9,9 +10,14 @@ export default function AboutPage() {
   `;
 
   return (
-    <div className={cn("p-8 max-w-4xl mx-auto text-center relative z-10")}>
-      <h1 className="text-5xl font-bold mb-8 text-terminal-green">Yama</h1>
-      <div className="text-lg leading-relaxed text-neutral-300 mx-auto max-w-3xl">
+    <div className={cn("p-4 sm:p-8 md:p-12 lg:p-16 max-w-4xl mx-auto text-center relative z-10")}>
+      {/* YamaText Section */}
+      <div className="relative mb-8">
+        <YamaText />
+      </div>
+
+      {/* Description Text */}
+      <div className="text-base sm:text-lg md:text-xl leading-relaxed text-neutral-300 mx-auto max-w-full sm:max-w-3xl ">
         <TextGenerateEffect
           words={yamaDescription}
           filter={true}

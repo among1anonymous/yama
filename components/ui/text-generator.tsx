@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useAnimate, stagger } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -18,21 +18,45 @@ export const TextGenerateEffect = ({
   duration = 0.5,
 }: TextGenerateEffectProps) => {
   const [scope, animate] = useAnimate();
+  const [isVisible, setIsVisible] = useState(false); // Track visibility
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const wordsArray = words.split(" ");
 
   useEffect(() => {
-    animate(
-      "span",
-      {
-        opacity: [0, 1],
-        filter: filter ? ["blur(10px)", "blur(0px)"] : ["none", "none"],
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting); // Set visibility based on intersection
       },
-      {
-        duration: duration,
-        delay: stagger(0.1),
-      }
+      { threshold: 0.1 } // Trigger when 10% of the component is visible
     );
-  }, [scope.current]);
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      animate(
+        "span",
+        {
+          opacity: [0, 1],
+          filter: filter ? ["blur(10px)", "blur(0px)"] : ["none", "none"],
+        },
+        {
+          duration: duration,
+          delay: stagger(0.1),
+        }
+      );
+    }
+  }, [isVisible]);
 
   const renderWords = () => {
     return (
@@ -40,7 +64,7 @@ export const TextGenerateEffect = ({
         {wordsArray.map((word, idx) => (
           <motion.span
             key={word + idx}
-            className="text-neutral-200"
+            className="text-terminal-green"
             style={{
               filter: filter ? "blur(10px)" : "none",
             }}
@@ -53,9 +77,9 @@ export const TextGenerateEffect = ({
   };
 
   return (
-    <div className={cn("font-bold", className)}>
+    <div className={cn("font-bold", className)} ref={containerRef}>
       <div className="mt-4">
-        <div className="text-neutral-100 text-2xl leading-snug tracking-wide">
+        <div className="text-terminal-green text-2xl leading-snug tracking-wide">
           {renderWords()}
         </div>
       </div>
