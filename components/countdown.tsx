@@ -3,6 +3,10 @@
 import localFont from 'next/font/local';
 import { useEffect, useState } from 'react';
 import './styles/glitch.css';
+import { EvervaultCard } from './ui/hover-timer';
+import { Deceptions } from './deceptionstext';
+
+
 const myFont = localFont({
   src: '/fonts/Hacked-KerX.ttf',
 });
@@ -12,6 +16,7 @@ const CountdownTimer: React.FC = () => {
   const [isClosed, setIsClosed] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(true);
   const [glitch, setGlitch] = useState(false);
+
   const calculateTimeLeft = () => {
     const eventDate = new Date('2024-09-20T00:00:00');
     const currentTime = new Date();
@@ -49,7 +54,7 @@ const CountdownTimer: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [timeLeft]);
 
   const handleMinimize = () => {
     setIsMinimized(!isMinimized);
@@ -74,11 +79,10 @@ const CountdownTimer: React.FC = () => {
 
   return (
     <div
-      className={`bg-black text-terminal-green font-mono ${
-        isFullScreen ? 'h-screen w-screen' : 'h-auto w-auto'
-      }`}
+      className={`bg-transparent text-terminal-green font-mono ${isFullScreen ? 'h-screen w-screen' : 'h-auto w-auto'} relative overflow-hidden`}
     >
-      <div className="top-0 absolute left-0 p-4 flex flex-col">
+      
+      <div className="top-0 absolute left-0 p-4 flex flex-col z-10">
         <div className="flex space-x-2 mb-2">
           <div className="w-3 h-3 bg-red-600 rounded-full cursor-pointer" onClick={handleClose}></div>
           <div className="w-3 h-3 bg-yellow-500 rounded-full cursor-pointer" onClick={handleMinimize}></div>
@@ -90,8 +94,9 @@ const CountdownTimer: React.FC = () => {
           </div>
         )}
       </div>
+
       {!isMinimized && (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full z-10">
           <div className="text-[6rem] leading-none">
             <div className={`${myFont.className} glitch ${glitch ? 'glitch-active' : ''}`} data-text={countdownDisplay}>
               {countdownDisplay}
@@ -99,6 +104,7 @@ const CountdownTimer: React.FC = () => {
           </div>
         </div>
       )}
+      
     </div>
   );
 };
