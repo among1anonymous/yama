@@ -1,35 +1,37 @@
 "use client";
-import { useMotionValue } from "framer-motion";
-import React, { useState, useEffect } from "react";
-import { useMotionTemplate, motion } from "framer-motion";
+
+import { useMotionValue, useMotionTemplate, motion, MotionValue } from "framer-motion";
+import React, { useState, useEffect, MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 import CountdownTimer from "../countdown";
 
-export const EvervaultCard = ({
-  
-  className,
-}: {
-  
+interface EvervaultCardProps {
   className?: string;
-}) => {
+}
+
+interface MouseMoveEvent extends MouseEvent<HTMLDivElement> {
+  currentTarget: HTMLDivElement;
+}
+
+export const EvervaultCard: React.FC<EvervaultCardProps> = ({ className }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const [randomString, setRandomString] = useState("");
+  const [randomString, setRandomString] = useState<string>("");
 
   useEffect(() => {
     const str = generateRandomString(50000);
     setRandomString(str);
   }, []);
 
-  function onMouseMove({ currentTarget, clientX, clientY }: any) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+  const onMouseMove = (event: MouseMoveEvent) => {
+    const { left, top } = event.currentTarget.getBoundingClientRect();
+    mouseX.set(event.clientX - left);
+    mouseY.set(event.clientY - top);
 
     const str = generateRandomString(50000);
     setRandomString(str);
-  }
+  };
 
   return (
     <div
@@ -48,16 +50,20 @@ export const EvervaultCard = ({
           randomString={randomString}
         />
         <div className="relative z-10">
-          
-            <span className="text-terminal-green"><CountdownTimer /></span>
-          
+          <span className="text-terminal-green"><CountdownTimer /></span>
         </div>
       </div>
     </div>
   );
 };
 
-export function CardPattern({ mouseX, mouseY, randomString }: any) {
+interface CardPatternProps {
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
+  randomString: string;
+}
+
+export function CardPattern({ mouseX, mouseY, randomString }: CardPatternProps) {
   const maskImage = useMotionTemplate`radial-gradient(250px at ${mouseX}px ${mouseY}px, white, transparent)`;
   const style = { maskImage, WebkitMaskImage: maskImage };
 
@@ -80,9 +86,9 @@ export function CardPattern({ mouseX, mouseY, randomString }: any) {
   );
 }
 
-const characters =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-export const generateRandomString = (length: number) => {
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+export const generateRandomString = (length: number): string => {
   let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -90,7 +96,9 @@ export const generateRandomString = (length: number) => {
   return result;
 };
 
-export const Icon = ({ className, ...rest }: any) => {
+interface IconProps extends React.SVGProps<SVGSVGElement> {}
+
+export const Icon: React.FC<IconProps> = ({ className, ...rest }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
