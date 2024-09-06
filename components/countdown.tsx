@@ -1,17 +1,19 @@
 "use client";
+
 import localFont from 'next/font/local';
 import { useEffect, useState } from 'react';
-
+import './styles/glitch.css';
 const myFont = localFont({
   src: '/fonts/Hacked-KerX.ttf',
-})
+});
+
 const CountdownTimer: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(true); 
-
+  const [isFullScreen, setIsFullScreen] = useState(true);
+  const [glitch, setGlitch] = useState(false);
   const calculateTimeLeft = () => {
-    const eventDate = new Date('2024-09-20T00:00:00'); 
+    const eventDate = new Date('2024-09-20T00:00:00');
     const currentTime = new Date();
     const difference = eventDate.getTime() - currentTime.getTime();
 
@@ -39,6 +41,11 @@ const CountdownTimer: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
+      if (timeLeft.seconds % 2 === 0) {
+        setGlitch(true);
+      } else {
+        setGlitch(false);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
@@ -57,7 +64,7 @@ const CountdownTimer: React.FC = () => {
   };
 
   if (isClosed) {
-    return null; 
+    return null;
   }
 
   const countdownDisplay = `
@@ -71,33 +78,28 @@ const CountdownTimer: React.FC = () => {
         isFullScreen ? 'h-screen w-screen' : 'h-auto w-auto'
       }`}
     >
-      
       <div className="top-0 absolute left-0 p-4 flex flex-col">
-       
         <div className="flex space-x-2 mb-2">
           <div className="w-3 h-3 bg-red-600 rounded-full cursor-pointer" onClick={handleClose}></div>
           <div className="w-3 h-3 bg-yellow-500 rounded-full cursor-pointer" onClick={handleMinimize}></div>
           <div className="w-3 h-3 bg-green-600 rounded-full cursor-pointer" onClick={handleToggleFullScreen}></div>
         </div>
-
         {!isMinimized && (
-
-        <div className="text-white text-xl">
-          yama@deceptions:~$ <span className="text-terminal-green">./countdown.sh</span>
-        </div>
+          <div className="text-white text-xl">
+            yama@deceptions:~$ <span className="text-terminal-green">./countdown.sh</span>
+          </div>
         )}
       </div>
       {!isMinimized && (
         <div className="flex items-center justify-center h-full">
-          <div className="text-[6rem] leading-none text-terminal-green">
-            <div className={myFont.className}>
+          <div className="text-[6rem] leading-none">
+            <div className={`${myFont.className} glitch ${glitch ? 'glitch-active' : ''}`} data-text={countdownDisplay}>
               {countdownDisplay}
             </div>
           </div>
         </div>
       )}
-      </div>
-    
+    </div>
   );
 };
 

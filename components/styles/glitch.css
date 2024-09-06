@@ -1,0 +1,65 @@
+/* styles/glitch.css */
+
+@keyframes glitch-anim {
+    0% {
+      transform: translate(0, 0);
+      clip: rect(0, 0, 0, 0);
+    }
+    10% {
+      transform: translate(-10px, -10px);
+      clip: rect(0, 100vw, 10px, 0);
+    }
+    20% {
+      transform: translate(10px, 10px);
+      clip: rect(10px, 100vw, 20px, 0);
+    }
+    30% {
+      transform: translate(-10px, -10px);
+      clip: rect(20px, 100vw, 30px, 0);
+    }
+    40% {
+      transform: translate(10px, 10px);
+      clip: rect(30px, 100vw, 40px, 0);
+    }
+    50% {
+      transform: translate(0, 0);
+      clip: rect(0, 100vw, 50px, 0);
+    }
+    100% {
+      transform: translate(0, 0);
+      clip: rect(0, 100vw, 50px, 0);
+    }
+  }
+  
+  .glitch {
+    position: relative;
+    display: inline-block;
+    color: #00ff00; /* Adjust color if needed */
+    font-family: 'Hacked-KerX', monospace; /* Use your custom font */
+    font-size: 6rem; /* Adjust font size as needed */
+    overflow: hidden;
+  }
+  
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: inherit;
+    background: inherit;
+    overflow: hidden;
+  }
+  
+  .glitch::before {
+    left: -2px;
+    text-shadow: -1px 0 red;
+    animation: glitch-anim 1s infinite linear;
+  }
+  
+  .glitch::after {
+    left: 2px;
+    text-shadow: 1px 0 blue;
+    animation: glitch-anim 1s infinite linear;
+  }
+  
