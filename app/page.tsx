@@ -7,6 +7,8 @@ import { EvervaultCard } from "@/components/ui/hover-timer";
 export default function Home() {
   return (
     <>
+    {/* add favicon */}
+    <link rel="icon" href="/favicon.ico" />
     <EvervaultCard />
     <BackgroundBeamsWithCollision>
         <div className="mt-10">
