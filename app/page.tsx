@@ -1,7 +1,4 @@
 import About from "@/components/about";
-import CountdownTimer from "@/components/countdown";
-import { Deceptions } from "@/components/deceptionstext";
-
 import { NavDock } from "@/components/navdock";
 import { BackgroundBeamsWithCollision } from "@/components/ui/bg-beams";
 import { EvervaultCard } from "@/components/ui/hover-timer";

@@ -3,9 +3,6 @@
 import localFont from 'next/font/local';
 import { useEffect, useState } from 'react';
 import './styles/glitch.css';
-import { EvervaultCard } from './ui/hover-timer';
-import { Deceptions } from './deceptionstext';
-
 
 const myFont = localFont({
   src: '/fonts/Hacked-KerX.ttf',
